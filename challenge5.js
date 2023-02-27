@@ -1,23 +1,55 @@
-const year = 1985
-const holidays = ['01/01', '01/06', '02/02', '02/17', '02/28', '06/03', '12/06', '12/25']
+//  Optimizing Santa's trips
 
-//(1985, ['01/01', '01/06', '02/02', '02/17', '02/28', '06/03', '12/06', '12/25']) 
+const giftsCities = [50, 10, 40, 1000, 500, 200]
+const maxGifts = 199
+const maxCities = 4
+
+function getMaxGifts(giftsCities, maxGifts, maxCities) {
+
+    let aux = 0
+    let arrayAux = structuredClone(giftsCities)
+    arrayAux.unshift(0)
+    let pivot
+    let arrayAdd
+    let auxAdd = 0
+    let totalAdd = []
+
+    while (arrayAux.length >= 1) {
+
+        pivot = arrayAux.shift()
+        arrayAdd = [pivot]
 
 
+        for (let j = 1; j <= maxCities; j++) {
+            arrayAdd = []
+            for (let i = 0; i < arrayAux.length; i++) {
+                arrayAdd.push(arrayAux[i])
+                console.log(arrayAdd)
+                if (arrayAdd.length == j) {
+                    for (let h = 0; h < arrayAdd.length; h++) {
+                        auxAdd += arrayAdd[h]
+                    }
+                    totalAdd.push(auxAdd)
+                    arrayAdd.pop()
+                    auxAdd = 0
+                }
+            }
+        }
+    }
 
-function countHours(year, holidays) {
-let extra = 0
-for (let i = 0; i < holidays.length; i++) {
-    let aux = holidays[i].split('/')
-    let day = Number(aux[1])   
-    let month = Number(aux[0]) - 1
-    let date = new Date( year, month, day, )
-    date.getDay() == 0 || date.getDay() == 6? null : extra +=2
-    console.log(date.getDay())
+    console.log(totalAdd)
+
+    totalAdd.sort((a, b) => { return a - b })
+
+    for (let i = 0; i < totalAdd.length; i++) {
+        totalAdd[i] <= maxGifts ? aux = totalAdd[i] : undefined
+    }
+
+    console.log(totalAdd)
+
+
+    return aux
 }
-    return extra
-}
-
-console.log(countHours(year, holidays))
 
 
+console.log(getMaxGifts(giftsCities, maxGifts, maxCities))
